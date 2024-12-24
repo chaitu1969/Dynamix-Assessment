@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CheckList Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: auto;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center">Checklist Dashboard</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="checklist-results"></tbody>
+    </table>
+    <script>
+      async function loadChecklist() {
+        try {
+          const response = await fetch("/checklist", { method: "GET" });
+          const data = await response.json();
+          const tableBody = document.getElementById("checklist-results");
+          data.Result.forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${item.name}</td><td>${item.status}</td>`;
+            tableBody.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Error loading checklist:", error.message);
+        }
+      }
+
+      loadChecklist();
+    </script>
+  </body>
+</html>
